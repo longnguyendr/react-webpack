@@ -51,20 +51,32 @@ class App extends Component {
         .then(respond => {
                 let cityOutput;
                 cityOutput = respond.filter(i => i.name.toLowerCase().startsWith(this.state.cityInput.toLowerCase())); // change code here
-                // cityOutput = (cityOutput.length >= 5) ? cityOutput : [...cityOutput, respond.filter(res => res.country.toLowerCase().include(citys.toLowerCase()))]
+                cityOutput = (cityOutput.length >= 5) ? cityOutput : "";
+                // [...cityOutput, respond.filter(res => res.country.toLowerCase().include(citys.toLowerCase()))]
                
                 console.log(cityOutput)
-                return cityOutput
+                if( cityOutput != undefined)
+                {
+                    return cityOutput.slice(0,5);
+                }
               }
         )
         .then((res) => {
-            const data = res.map((i, z= 1) => <li key={i.id}> {z++}/ {i.name}</li>
-            )
-            this.setState({
-              ...this.state,
-              data: data,
-            })
-            console.log(this.state.data)
+            console.log(res)
+            if(res != '')
+            {
+                const data = res.map((i, z= 1) => <li key={i.id}> {z++}/ {i.name}</li>)
+                this.setState({
+                ...this.state,
+                data: data
+            })}
+            else {
+                this.setState({
+                    ...this.state,
+                    data: <em>No suggestions, you're on your own!</em>
+                })
+            }
+            // console.log(this.state.data)
           })
         // .then(data => {
         //     this.setState({
