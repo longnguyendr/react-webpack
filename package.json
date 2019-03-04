@@ -20,6 +20,7 @@
         "@babel/preset-env": "^7.3.1",
         "@babel/preset-react": "^7.0.0",
         "@material-ui/core": "^3.9.2",
+        "axios": "^0.18.0",
         "babel-loader": "^8.0.5",
         "cordova-android": "^7.1.4",
         "cordova-browser": "^5.0.4",
