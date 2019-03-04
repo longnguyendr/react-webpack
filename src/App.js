@@ -14,12 +14,10 @@ class App extends Component {
     
         this.state = {
             data: [],
-            city_name: '',
             cityInput: '',
             cityId: '',
             submit: '',
             errormessage: '',
-            country: '',
             dropdown: ""
         };
         this.handleChange = this.handleChange.bind(this);
@@ -76,24 +74,28 @@ class App extends Component {
     // get weather on submit button
     getWeather = async (e) => {
         e.preventDefault();
-        return new Promise((resolve, reject) => {
-            axios.get(`https://api.openweathermap.org/data/2.5/weather?id=${this.state.cityId}&APPID=${apiKey.openWeatherKey}&units=metric`)
-                 .then( (response) => {
-                     // handle success
-                     console.log(response);
-                     console.log(response.data);
-                     resolve(response.data);
-                 })
-                 .catch( (error) => {
-                     // handle error
-                     console.log(error);
-                     reject(error);
-                 });     
-         });
+        if(this.state.cityInput != null)
+        {
+            return new Promise((resolve, reject) => {
+                axios.get(`https://api.openweathermap.org/data/2.5/weather?id=${this.state.cityId}&APPID=${apiKey.openWeatherKey}&units=metric`)
+                     .then( (response) => {
+                         // handle success
+                         console.log(response);
+                         console.log(response.data);
+                         resolve(response.data);
+                     })
+                     .catch( (error) => {
+                         // handle error
+                         console.log(error);
+                         reject(error);
+                     });     
+             });
+        }
+      
     }
     render (){
         // console.log(this.state.data);
-        const data = this.state.data.map((i) => <li className={this.state.dropdown} onClick={this.handleClick} id={i.id} name={i.name}> {i.name}, {i.country}</li>)
+        const data = this.state.data.map((i) => <li key={i.id} className={this.state.dropdown} onClick={this.handleClick} id={i.id} name={i.name}> {i.name}, {i.country}</li>)
         return(
             <div>
                 <Title />
@@ -108,9 +110,6 @@ class App extends Component {
                         {data} 
                     </ul>
                 </div>
-                {/* <ul>
-                    <li>cityInput = {this.state.cityInput}</li>
-                </ul> */}
             </div>            
         );
     }
