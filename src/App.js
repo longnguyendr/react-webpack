@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Title from './components/Title';
 import Search_bar from './components/Search_bar';
 import Weather from './components/Weather';
-import * as data from '../api/weather_14.json';
-import Suggestion from './components/Suggestion';
+import styles from './components/Suggestion.css';
 
+const cityData = require('../www/citylist/citylist.json');
 const API_KEY = "d0ae4271fe238991dc50293837d2f193";
 
 class App extends Component {
@@ -13,109 +13,74 @@ class App extends Component {
     
         this.state = {
             data: [],
-          city_name: '',
-          cityInput: '',
-          submit: '',
-          errormessage: '',
-          country: ''
+            city_name: '',
+            cityInput: '',
+            submit: '',
+            errormessage: '',
+            country: '',
+            dropdown: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.getWeather = this.getWeather.bind(this);
       }
-    //   componentDidMount() {
-    //     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},uk&appid=d0ae4271fe238991dc50293837d2f193`)
-    //     .then(response => response.json())
-    //       .then(data => {
-    //           this.setState({ data:data});
-    //           console.log(data);
-    //         });
-    //   }
- 
-    handleChange = (e) => {
+    // set delay times
+    delayTime = async (ms) => {
+        return new Promise(resolve => {
+          setTimeout(resolve, ms);
+        });
+      };
+    //Input on change event
+    handleChange = async (e) => {
         this.setState({
           cityInput: e.target.value
         });
-      }
+        if(e.target.value != null){
+            this.setState({dropdown: 'dropdown-open'});
+            await this.delayTime(500);
+            let cityOutput;
+            cityOutput = cityData.filter(i => i.name.trim().toLowerCase().startsWith(this.state.cityInput.toLowerCase().trim())); // change code here
+            cityOutput = (cityOutput.length === 0) ? [] : cityOutput.slice(0,5);
+            let results = (this.state.cityInput.length > 0) ? this.setState({data: cityOutput}) : this.setState({data:[]});
+            return results
+        }
+    }
+    // Suggestion on Click event
+    handleClick = (i) => {
+        console.log(i.target.id);
+        this.setState({
+            dropdown: "dropdown-close",
+            cityInput: i.target.id
+        });
+    }
 
+    // get weather on submit button
     getWeather = async (e) => {
         e.preventDefault();
         this.setState({
             submit: e.target.elements.city.value
         });
         const citys = e.target.elements.city.value;
-        // await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${submitdata}&appid=${API_KEY}`)
-        await fetch(`citylist/citylist.json`)
-        .then(response => {
-                return response.json();
-        })
-        .then(respond => {
-                let cityOutput;
-                cityOutput = respond.filter(i => i.name.toLowerCase().startsWith(this.state.cityInput.toLowerCase())); // change code here
-                cityOutput = (cityOutput.length >= 5) ? cityOutput : "";
-                // [...cityOutput, respond.filter(res => res.country.toLowerCase().include(citys.toLowerCase()))]
-               
-                console.log(cityOutput)
-                if( cityOutput != undefined)
-                {
-                    return cityOutput.slice(0,5);
-                }
-              }
-        )
-        .then((res) => {
-            console.log(res)
-            if(res != '')
-            {
-                const data = res.map((i, z= 1) => <li key={i.id}> {z++}/ {i.name}</li>)
-                this.setState({
-                ...this.state,
-                data: data
-            })}
-            else {
-                this.setState({
-                    ...this.state,
-                    data: <em>No suggestions, you're on your own!</em>
-                })
-            }
-            // console.log(this.state.data)
-          })
-        // .then(data => {
-        //     this.setState({
-        //         data: data,
-        //         cityInput: ''
-        //     })
-        //     console.log(this.state.data)
-        
-        // }) 
-   
-    // .then(data => {
-    //     for(var i = 0; i< data.length; i++) {
-    //         if (this.state.submit == data[i].name) {
-    //             this.setState({
-    //               city: data[i].name
-    //             });
-    //         }
-    //     };
-    //   });
     }
     render (){
-        // const cityOutput = this.state.data.filter(i => i.name.toLowerCase().startsWith(this.state.cityInput.toLowerCase())); // change code here
-        // console.log(cityOutput);
-        // const renderOutput = cityOutput.map((i) => <li key={i.name + 1}>{i.name}</li>);
+        // console.log(this.state.data);
+        const data = this.state.data.map((i) => <li className={this.state.dropdown} onClick={this.handleClick} id={i.name}> {i.name}</li>)
         return(
             <div>
                 <Title />
-                <Search_bar getWeather={this.getWeather} handleChange={this.handleChange} value={this.state.cityInput}/>
+                <Search_bar 
+                    getWeather={this.getWeather} 
+                    handleChange={this.handleChange} 
+                    value={this.state.cityInput}
+                />
                 <Weather />
+                <div>
+                    <ul > 
+                        {data} 
+                    </ul>
+                </div>
                 <ul>
-                    {/* <li>city = {this.state.data.name}</li>
-                    <li>cityid = {this.state.data.id}</li> */}
-                    {this.state.data}
                     <li>cityInput = {this.state.cityInput}</li>
                 </ul>
-                {/* <ul>
-                    {renderOutput}
-                </ul> */}
-                {/* <Suggestion results={this.state.data} /> */}
             </div>            
         );
     }

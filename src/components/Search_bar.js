@@ -7,10 +7,14 @@ class Search_bar extends Component {
     render () {
         return(
             <div>
-            {/* <p>{this.props.task.join(" , ")}</p> */}
                 <form  onSubmit={this.props.getWeather}>
-                    <input type="text" placeholder="Enter city" name="city" value={this.props.value} 
-                    onChange={this.props.handleChange}></input>
+                    <input 
+                        type="text"
+                        placeholder="Enter city" 
+                        name="city" 
+                        value={this.props.value} 
+                        onChange={this.props.handleChange} 
+                    ></input>
                     <button >Add city</button>
                 </form>
             </div>
