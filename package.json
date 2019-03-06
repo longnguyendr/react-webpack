@@ -1,6 +1,6 @@
 {
-    "name": "helloworld",
-    "displayName": "HelloCordova",
+    "name": "WeatherApp",
+    "displayName": "WeatherApp",
     "version": "1.0.0",
     "description": "A sample Apache Cordova application that responds to the deviceready event.",
     "scripts": {
@@ -11,7 +11,7 @@
         "start": "webpack-dev-server --port 8000 --progress",
         "clean": "rm www/js/bundle.js"
     },
-    "author": "Apache Cordova Team",
+    "author": "Long Nguyen",
     "license": "Apache-2.0",
     "dependencies": {
         "@babel/core": "^7.2.2",
