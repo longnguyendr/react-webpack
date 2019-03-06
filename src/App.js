@@ -3,6 +3,7 @@ import Title from './components/Title';
 import Search_bar from './components/Search_bar';
 import Weather from './components/Weather';
 import styles from './components/Suggestion.css';
+import localForage from 'localforage';
 import axios from 'axios';
 import * as _ from 'lodash';
 const apiKey = require('../apiKey.json');
@@ -19,12 +20,66 @@ class App extends Component {
             cityId: '',
             submit: '',
             errormessage: '',
-            dropdown: ""
+            dropdown: "",
+            savedCities: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.getWeather = this.getWeather.bind(this);
         this.handleClick = this.handleClick.bind(this);
+
+        
+        this.initDB();
+
+        /* Load items from database and populate the current state */
+        localForage.iterate((cityDataFromDb, key, iterationNumber) => {
+            let currentCities = _.cloneDeep(this.state.savedCities);
+            currentCities.push(cityDataFromDb);
+            this.setState({ savedCities: currentCities });
+        }).then(function() {
+            console.log('DB initial load has completed');
+        }).catch(function(err) {
+            console.log(err);
+        });
       }
+
+      saveCity(cityAndWeatherData)
+      {
+          console.log(cityAndWeatherData)
+          let savedCities = [];
+          if(this.state.savedCities.find(element => element.id === cityAndWeatherData.id) == undefined)
+          {
+              console.log(cityAndWeatherData.id);
+              savedCities = _.cloneDeep(this.state.savedCities);            
+              savedCities.unshift(cityAndWeatherData);
+              localForage.setItem(cityAndWeatherData.id.toString(), cityAndWeatherData)
+              .then(() => {
+                  console.log("item added to database")
+                })
+                .catch( (err) => {
+                  // we got an error
+                  console.log("db error");
+                });
+              this.setState({ savedCities });
+          }
+          else
+          {        
+              return;
+          }        
+          console.log(this.state.savedCities)
+      }
+  
+      initDB()
+      {
+          localForage.config({
+              driver      : localForage.INDEXEDDB, // Force WebSQL; same as using setDriver()
+              name        : 'weatherAppForage',
+              version     : 1.0,
+              storeName   : 'dataStorage', // Should be alphanumeric, with underscores.
+              description : 'some description'
+          });
+          console.log("Database init complete");
+      }
+
     // set delay times
     delayTime = async (ms) => {
         return new Promise(resolve => {
@@ -62,7 +117,7 @@ class App extends Component {
             return results
         }
     }
-    // Suggestion on Click event
+    // Suggestion when user click dropdown
     handleClick = (i) => {
         // console.log();
         this.setState({
@@ -84,8 +139,10 @@ class App extends Component {
                          console.log(response);
                          console.log(response.data);
                          console.log(response.data.sys.country);
+                         this.saveCity(response.data)
                          this.setState({
-                            weatherData: _.values({data: response.data})
+                            weatherData: _.values({data: response.data}),
+                            cityInput: ''
                          })
                      })
                      .catch( (error) => {
@@ -117,11 +174,18 @@ class App extends Component {
                 </div>  
                 <div>
                     {
-                        this.state.weatherData.map(city => {
+                        this.state.savedCities.map(city => {
                             return <Weather key={city.id} data={city} />
                         })
                     }
                 </div>
+                {/* <div>
+                    {
+                        this.state.weatherData.map(city => {
+                            return <Weather key={city.id} data={city} />
+                        })
+                    }
+                </div> */}
                
             </div>            
         );
