@@ -4,7 +4,7 @@ import Search_bar from './components/Search_bar';
 import Weather from './components/Weather';
 import styles from './components/Suggestion.css';
 import axios from 'axios';
-
+import * as _ from 'lodash';
 const apiKey = require('../apiKey.json');
 const cityData = require('../www/citylist/citylist.json');
 
@@ -14,6 +14,7 @@ class App extends Component {
     
         this.state = {
             data: [],
+            weatherData: [],
             cityInput: '',
             cityId: '',
             submit: '',
@@ -82,7 +83,10 @@ class App extends Component {
                          // handle success
                          console.log(response);
                          console.log(response.data);
-                         resolve(response.data);
+                         console.log(response.data.sys.country);
+                         this.setState({
+                            weatherData: _.values({data: response.data})
+                         })
                      })
                      .catch( (error) => {
                          // handle error
@@ -95,6 +99,7 @@ class App extends Component {
     }
     render (){
         // console.log(this.state.data);
+        console.log(this.state.weatherData.map(i => i.id));
         const data = this.state.data.map((i) => <li key={i.id} className={this.state.dropdown} onClick={this.handleClick} id={i.id} name={i.name}> {i.name}, {i.country}</li>)
         return(
             <div>
@@ -104,12 +109,20 @@ class App extends Component {
                     handleChange={this.handleChange} 
                     value={this.state.cityInput}
                 />
-                <Weather />
+              
                 <div>
                     <ul> 
                         {data} 
                     </ul>
+                </div>  
+                <div>
+                    {
+                        this.state.weatherData.map(city => {
+                            return <Weather key={city.id} data={city} />
+                        })
+                    }
                 </div>
+               
             </div>            
         );
     }
