@@ -12,11 +12,13 @@ console.log(this.props.data);
             (
                 <div className="main">
                     <div className="marginBox">
-                        <div>{this.props.data.name}, {this.props.data.sys.country}</div>
-                        <div className="mainTemp">{this.props.data.main.temp} &#8451;</div>
-                        <div>{this.props.data.main.temp_min} &#8451;/{this.props.data.main.temp_max} &#8451;</div>
-                        <div>{time}</div>
-                        <div>sunrise: {sunrise} , sunset: {sunset}</div>
+                        <div>
+                            <div>{this.props.data.name}, {this.props.data.sys.country}</div>
+                            <div className="mainTemp">{this.props.data.main.temp} &#8451;</div>
+                            <div>{this.props.data.main.temp_min} &#8451;/{this.props.data.main.temp_max} &#8451;</div>
+                            <div>{time}</div>
+                            <div>sunrise: {sunrise} , sunset: {sunset}</div>
+                        </div>
                     </div>                    
                 </div>
             );
