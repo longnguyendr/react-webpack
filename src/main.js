@@ -11,7 +11,7 @@ const routing = (
     <Router>
         <Switch>
           <Route exact path="/" component={App} />
-        <Route path="/weather_detail" render={props => <Weather_detail {...props} /> }/>
+          <Route path="/weather_detail" render={props => <Weather_detail {...props} /> }/>
         </Switch>
     </Router>
   );
