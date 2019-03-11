@@ -3,7 +3,7 @@ import Title from './components/Title';
 import Search_bar from './components/Search_bar';
 import Weather from './components/Weather';
 import localForage from 'localforage';
-
+import { withRouter } from 'react-router-dom';
 
 class App extends Component {
     constructor(props) {
@@ -71,7 +71,7 @@ class App extends Component {
   
     render (){
         return(
-            <div className>
+            <div>
                 <Title />
                 <Search_bar saveCity={this.saveCity} />
                 <div>
@@ -93,4 +93,4 @@ class App extends Component {
         );
     }
 }
-export default App
+export default withRouter(App)
