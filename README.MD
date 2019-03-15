@@ -49,5 +49,13 @@ Build the package:
 ```
 $ npm run build-dev (for development mode) or npm run build-prod (for production mode)
 ```
+Run the App:
+```
+$ cordova run android 
+```
+or
+```
+$ cordova run browser
+```
 ### Author
 Long Nguyen
