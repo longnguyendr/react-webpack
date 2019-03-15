@@ -1,7 +1,8 @@
 ### Description
 WeatherApp
 
-### Demo
+### Demo 
+[View Demo](https://weather-app-234208.appspot.com/)
 
 <p align="center">
 <img width="200px" height="400px" src ="./www/img/demo.png" /></p>
@@ -40,3 +41,5 @@ Build the package:
 ```
 $ npm run build-dev (for development mode) or npm run build-prod (for production mode)
 ```
+### Author
+Long Nguyen
