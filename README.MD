@@ -16,10 +16,6 @@ WeatherApp
 * [Cordova](https://cordova.apache.org/)
 * [Node.js](https://nodejs.org/en/download/)
 
-```
-$ Install cordova by the following instruction [Cordova](https://cordova.apache.org/#getstarted)
-```
-
 ### Installing
 Clone the project:
 ```
