@@ -4,7 +4,7 @@ WeatherApp
 ### Demo
 
 <!-- ![image](./www/img/demo.png) -->
-<img style="left:50%;" width="150px" height="400px" src="./www/img/demo.png">
+<div style="text-align:center"><img width="320px" height="600px"src ="./www/img/demo.png" /></div>
 
 ### Technologies
 * Android Hybrid
