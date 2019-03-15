@@ -12,3 +12,20 @@ WeatherApp
 * ReactJS
 * webpack
 
+### Prerequisites to run
+* [Cordova](https://cordova.apache.org/)
+* [Node.js](https://nodejs.org/en/download/)
+
+```
+$ Install cordova by the following instruction [Cordova](https://cordova.apache.org/#getstarted)
+```
+
+### Installing
+Clone the project:
+```
+$ git clone https://github.com/longnguyendr/react-webpack.git
+```
+Install the dependencies:
+
+```
+$ npm install
