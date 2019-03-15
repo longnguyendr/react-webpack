@@ -9,7 +9,7 @@ WeatherApp
 
 ### Technologies
 * Android Hybrid
-* [Openweather api](https://openweathermap.org/)
+* [Openweathermap api](https://openweathermap.org/)
 * ReactJS
 * Webpack
 * Localforage
@@ -36,6 +36,14 @@ $ cordova platform add browser
 or
 ```
 $ cordova platform add android 
+```
+Login and download the Api_key at [Openweathermap](https://openweathermap.org/)
+```
+$ Create a file called "apiKey.json" in root folder and add the following object to the file:
+$
+{
+    "openWeatherKey": "Your API_KEY"
+}
 ```
 Build the package:
 ```
